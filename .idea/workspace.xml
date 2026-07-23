@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bfd4ed4-2db2-45e9-a981-6371fd5cf39d" name="Changes" comment="emove env" />
+    <list default="true" id="6bfd4ed4-2db2-45e9-a981-6371fd5cf39d" name="Changes" comment="emove env">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/anomaly_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/anomaly_detector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/llm_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/llm_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/notification_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/notification_service.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/platform_connectors/meta_ads_connector.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/platform_connectors/meta_ads_connector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/services/platform_connectors/tiktok_ads_connector.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/platform_connectors/tiktok_ads_connector.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +29,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/kapousa/roasify-backend.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/kapousa/rakh-backend.git&quot;,
     &quot;accountId&quot;: &quot;dff02569-b121-4a7d-a6a4-8dee342cea54&quot;
   }
 }</component>

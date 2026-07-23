@@ -29,7 +29,7 @@ from app.services.platform_connectors.base import (
 )
 
 NOT_AVAILABLE_MESSAGE = (
-    "TikTok Ads integration is not yet available — it's built into Roasify's "
+    "TikTok Ads integration is not yet available — it's built into RAKH's "
     "connector framework but pending TikTok's Marketing API app review. "
     "Use CSV upload for TikTok campaigns in the meantime."
 )

@@ -76,7 +76,7 @@ def notify_critical_anomalies(
           <p><strong>{client_name}</strong> — {period_label or 'Latest report'}</p>
           <ul>{''.join(f'<li>{a.get("message","")}</li>' for a in critical)}</ul>
           {f'<p><a href="{report_url}">View full report</a></p>' if report_url else ''}
-          <p style="color:#9CA3AF; font-size:12px;">Sent automatically by Roasify.</p>
+          <p style="color:#9CA3AF; font-size:12px;">Sent automatically by RAKH.</p>
         </div>
         """
         _send_email(agency_notification_email, subject, html)
@@ -99,8 +99,8 @@ def notify_reminder(
     <div style="font-family: sans-serif; max-width: 480px;">
       <h2 style="color:#4F46E5;">Report Reminder</h2>
       <p>Based on {client_name}'s reporting cadence, it looks like a new report is due.
-      Upload the latest campaign export in Roasify to generate it.</p>
-      <p style="color:#9CA3AF; font-size:12px;">Sent automatically by Roasify.</p>
+      Upload the latest campaign export in RAKH to generate it.</p>
+      <p style="color:#9CA3AF; font-size:12px;">Sent automatically by RAKH.</p>
     </div>
     """
     _send_email(agency_notification_email, subject, html)
@@ -132,10 +132,10 @@ def notify_report_pending_review(
     html = f"""
     <div style="font-family: sans-serif; max-width: 480px;">
       <h2 style="color:#4F46E5;">Report Ready for Review</h2>
-      <p>Roasify pulled fresh data for <strong>{client_name}</strong> and generated a new report.</p>
+      <p>RAKH pulled fresh data for <strong>{client_name}</strong> and generated a new report.</p>
       <p>{timing_note}</p>
       <p><a href="{review_url}">Review it now</a></p>
-      <p style="color:#9CA3AF; font-size:12px;">Sent automatically by Roasify.</p>
+      <p style="color:#9CA3AF; font-size:12px;">Sent automatically by RAKH.</p>
     </div>
     """
     _send_email(agency_notification_email, subject, html)
@@ -168,7 +168,7 @@ def send_report_to_client(
           <p>Hi {client_name} team,</p>
           <p>Your latest performance report is ready — see the attached PDF, or view it live:</p>
           <p><a href="{share_url}">{share_url}</a></p>
-          <p style="color:#9CA3AF; font-size:12px;">Prepared by {agency_name} via Roasify.</p>
+          <p style="color:#9CA3AF; font-size:12px;">Prepared by {agency_name} via RAKH.</p>
         </div>
         """,
         "html",

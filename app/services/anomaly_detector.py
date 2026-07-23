@@ -10,7 +10,7 @@ Two detection modes, applied together:
 2. TREND-BASED (self-referential): using the daily series inside the
    uploaded file itself, compare the trailing half of the period against
    the leading half. A significant swing (e.g. CTR down 30%+, CPA up 30%+)
-   is flagged even with no external target — this is what lets Roasify
+   is flagged even with no external target — this is what lets RAKH
    work standalone on a single CSV with zero prior history.
 
 Findings are returned as `Anomaly` objects with a severity level so the
