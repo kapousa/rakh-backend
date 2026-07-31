@@ -46,4 +46,4 @@ app.include_router(admin.router)
 
 @app.get("/api/health", tags=["health"])
 async def health_check():
-    return {"status": "ok", "service": "rakh-api"}
+    return {"status": "ok", "service": "roasify-api"}

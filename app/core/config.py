@@ -52,12 +52,19 @@ class Settings(BaseSettings):
     GOOGLE_OAUTH_REDIRECT_URI: str = "http://localhost:8000/api/integrations/google/callback"
     GOOGLE_ADS_DEVELOPER_TOKEN: str | None = None
 
-    # Meta/TikTok — config placeholders for Phase 2/3, unused until each
-    # platform's app review is approved (see the connector stubs).
+    # Meta Ads (Phase 2 — connector code complete, gated by Meta App
+    # Review + Business Verification before it works on real client
+    # accounts; see meta_ads_connector.py for details).
     META_OAUTH_APP_ID: str | None = None
     META_OAUTH_APP_SECRET: str | None = None
+    META_OAUTH_REDIRECT_URI: str = "http://localhost:8000/api/integrations/meta/callback"
+
+    # TikTok Ads (Phase 3 — connector code complete, gated by TikTok
+    # Marketing API review before it works on real client accounts; see
+    # tiktok_ads_connector.py for details).
     TIKTOK_OAUTH_APP_ID: str | None = None
     TIKTOK_OAUTH_APP_SECRET: str | None = None
+    TIKTOK_OAUTH_REDIRECT_URI: str = "http://localhost:8000/api/integrations/tiktok/callback"
 
     # App
     ENVIRONMENT: str = "development"

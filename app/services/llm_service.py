@@ -15,7 +15,7 @@ from typing import Any
 from app.core.config import get_settings
 from app.models.schemas import Anomaly, Language, Metrics, Tone
 
-SYSTEM_PROMPT = """You are RAKH AI, a senior digital marketing analyst who writes \
+SYSTEM_PROMPT = """You are Roasify AI, a senior digital marketing analyst who writes \
 client-facing monthly performance reports for an agency's white-label reporting tool.
 
 Rules you must always follow:
