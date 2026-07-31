@@ -4,16 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bfd4ed4-2db2-45e9-a981-6371fd5cf39d" name="Changes" comment="Add docker file">
+    <list default="true" id="6bfd4ed4-2db2-45e9-a981-6371fd5cf39d" name="Changes" comment="Add meta and TikTok connection">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/core/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/anomaly_detector.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/anomaly_detector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/llm_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/llm_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/notification_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/notification_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/platform_connectors/meta_ads_connector.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/platform_connectors/meta_ads_connector.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/platform_connectors/tiktok_ads_connector.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/platform_connectors/tiktok_ads_connector.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +183,15 @@
       <option name="project" value="LOCAL" />
       <updated>1785144631893</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Add meta and TikTok connection">
+      <option name="closed" value="true" />
+      <created>1785484776859</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1785484776859</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,6 +204,7 @@
     <MESSAGE value="emove env" />
     <MESSAGE value="change from roasify to rakh" />
     <MESSAGE value="Add docker file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add docker file" />
+    <MESSAGE value="Add meta and TikTok connection" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add meta and TikTok connection" />
   </component>
 </project>
