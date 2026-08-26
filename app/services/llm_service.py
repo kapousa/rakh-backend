@@ -150,14 +150,15 @@ Write the JSON object now.
 #     )
 #     return resp.choices[0].message.content
 
-def _call_groq(user_text: str, api_key: str) -> str:
+def _call_groq(system: str, user: str, model: str, api_key: str) -> str:
     from groq import Groq
 
     client = Groq(api_key=api_key)
     resp = client.chat.completions.create(
-        model="meta-llama/llama-prompt-guard-2-86m",
-        messages=[{"role": "user", "content": user_text}],
+        model=model,
+        messages=[{"role": "user", "content": user}],
         temperature=1,
+        response_format={"type": "json_object"},
     )
     return resp.choices[0].message.content
 
