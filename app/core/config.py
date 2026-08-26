@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     GROQ_API_KEY: str | None = None
     OPENAI_API_KEY: str | None = None
     LLM_PROVIDER: str = "groq"          # "groq" | "openai"
-    GROQ_MODEL: str = "groq/compound" #"llama-3.3-70b-versatile"
+    GROQ_MODEL: str = "llama-3.3-70b-versatile"
     OPENAI_MODEL: str = "gpt-4o-mini"
 
     # Email (SMTP) — used for critical-alert notifications and reminder emails.
