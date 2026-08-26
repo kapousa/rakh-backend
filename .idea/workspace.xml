@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bfd4ed4-2db2-45e9-a981-6371fd5cf39d" name="Changes" comment="Revert the prompt">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="6bfd4ed4-2db2-45e9-a981-6371fd5cf39d" name="Changes" comment="AGAIN UPDATE the prompt">
       <change beforePath="$PROJECT_DIR$/app/services/llm_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/llm_service.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -216,7 +215,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787739684301</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="AGAIN UPDATE the prompt">
+      <option name="closed" value="true" />
+      <created>1787740440751</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1787740440751</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -232,6 +239,7 @@
     <MESSAGE value="Add meta and TikTok connection" />
     <MESSAGE value="Update the prompt" />
     <MESSAGE value="Revert the prompt" />
-    <option name="LAST_COMMIT_MESSAGE" value="Revert the prompt" />
+    <MESSAGE value="AGAIN UPDATE the prompt" />
+    <option name="LAST_COMMIT_MESSAGE" value="AGAIN UPDATE the prompt" />
   </component>
 </project>
