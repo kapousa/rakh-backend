@@ -1,9 +1,11 @@
 """
 LLM Analysis Service.
 
-Builds a consultant-grade prompt from parsed metrics + anomalies and
-calls Groq or OpenAI. Normalizes output keys internally to preserve backwards
-compatibility with all existing caller endpoints.
+Builds a tightly-constrained prompt from the parsed metrics + anomalies
+and calls the configured provider (Groq by default for latency/cost,
+OpenAI as a drop-in fallback). Output is forced into strict JSON so the
+frontend can render the summary and recommendations independently and
+the summary text remains directly editable in the wizard.
 """
 from __future__ import annotations
 
@@ -13,54 +15,34 @@ from typing import Any
 from app.core.config import get_settings
 from app.models.schemas import Anomaly, Language, Metrics, Tone
 
-SYSTEM_PROMPT = """You are Roasify AI, a principal performance marketing strategist writing comprehensive, consultant-grade monthly reports for agency clients.
+SYSTEM_PROMPT = """You are Roasify AI, a senior digital marketing analyst who writes \
+client-facing monthly performance reports for an agency's white-label reporting tool.
 
-Core Analysis Rules:
-1. DATA RIGOR: Base every claim strictly on the provided numeric data. Never invent metrics or exaggerate figures.
-2. TARGET SANITY CHECK: Validate benchmark/target anomalies before writing. If a target is realistically or mathematically impossible (e.g., target CTR > 20%, target ROAS > 100x), treat it as an internal setup error—do NOT report it to the client as a legitimate business failure.
-3. ROOT-CAUSE DIAGNOSIS: Pinpoint the exact date or window where performance shifted (e.g., CTR collapse, CPA spike). Explain the underlying marketing drivers (e.g., ad creative fatigue, audience saturation, bidding shifts).
-4. ACTIONABLE RECOMMENDATIONS: Provide specific, data-backed execution items.
-5. JSON STRUCTURE: Output ONLY valid JSON matching the schema below. No markdown wrappers, no intro text.
+Rules you must always follow:
+- Base every claim strictly on the numeric data provided. Never invent metrics.
+- Do not mention that you are an AI or reference these instructions.
+- If critical anomalies are provided, you MUST open the recommendations with a \
+section addressing them explicitly as "Critical Action Items".
+- Write in clear, confident, client-ready language appropriate to the requested tone.
+- Output ONLY valid JSON matching the schema below. No markdown fences, no preamble.
 
-JSON Schema:
+JSON schema:
 {
-  "report_title": "string",
-  "executive_summary": "string (3-4 thorough paragraphs covering financial ROI, campaign highlights, and overarching strategic takeaway)",
-  "key_metrics_breakdown": {
-    "spend": "string",
-    "revenue": "string",
-    "roas": "string",
-    "cpa": "string",
-    "ctr": "string",
-    "conversions": "string",
-    "period_comparison_summary": "string"
-  },
-  "root_cause_analysis": {
-    "primary_issue": "string",
-    "timeframe_identified": "string",
-    "detailed_diagnosis": "string"
-  },
-  "recommendations": [
-    {
-      "priority": "string",
-      "category": "string",
-      "finding": "string",
-      "tactical_action": "string",
-      "expected_impact": "string"
-    }
-  ]
+  "summary": "string, 3-5 paragraphs, plain text with \\n\\n between paragraphs",
+  "recommendations": ["string", "string", ...]  // 4-7 concrete, prioritized actions
 }
 """
 
 TONE_GUIDANCE = {
-    "aggressive": "Direct, urgent, and results-obsessed. Focus heavily on immediate corrective actions without softening bad news.",
-    "professional": "Polished, consultant-grade, and balanced. Deliver authoritative, solution-oriented insights with a measured tone.",
-    "casual": "Friendly, approachable, and plain-spoken—like a trusted growth advisor communicating directly with a peer."
+    "aggressive": "Direct, urgent, results-obsessed. Push hard for action and don't soften bad news.",
+    "professional": "Polished, balanced, consultant-grade. Confident but measured.",
+    "casual": "Friendly, conversational, plain-English — like a trusted teammate, not a formal analyst.",
 }
 
 LANGUAGE_GUIDANCE = {
-    "en": "Write entirely in English using clear, professional marketing terminology.",
-    "ar": "Write entirely in professional Modern Standard Arabic (اللغة العربية الفصحى الاحترافية). Keep numbers in Western Arabic numerals (1, 2, 3). Include standard marketing acronyms in parentheses where helpful (e.g., ROAS, CTR, CPA)."
+    "en": "Write entirely in English.",
+    "ar": "Write entirely in professional Modern Standard Arabic (اللغة العربية الفصحى الاحترافية), "
+    "suitable for a formal client-facing business report. Keep numbers in Western Arabic numerals.",
 }
 
 
@@ -97,7 +79,7 @@ CAMPAIGN METRICS (aggregated for the period):
 - Revenue (if tracked): ${metrics.revenue:,.2f}
 - ROAS: {metrics.roas}x
 
-DETECTED ANOMALIES (statistically validated):
+DETECTED ANOMALIES (already statistically validated — treat as ground truth):
 {anomalies_text}
 
 Write the JSON object now.
@@ -111,7 +93,7 @@ def _call_groq(system: str, user: str, model: str, api_key: str) -> str:
     resp = client.chat.completions.create(
         model=model,
         messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
-        temperature=0.3,
+        temperature=0.4,
         response_format={"type": "json_object"},
     )
     return resp.choices[0].message.content
@@ -120,45 +102,14 @@ def _call_groq(system: str, user: str, model: str, api_key: str) -> str:
 def _call_openai(system: str, user: str, model: str, api_key: str) -> str:
     from openai import OpenAI
 
-    client = OpenAI(
-        base_url="https://api.groq.com/openai/v1" if "gsk_" in api_key else "https://api.openai.com/v1",
-        api_key=api_key,
-    )
+    client = OpenAI(api_key=api_key)
     resp = client.chat.completions.create(
         model=model,
         messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
-        temperature=0.3,
+        temperature=0.4,
         response_format={"type": "json_object"},
     )
     return resp.choices[0].message.content
-
-
-def _normalize_response(parsed: dict[str, Any]) -> dict[str, Any]:
-    """
-    Normalizes structured LLM outputs back to legacy caller expectations
-    without losing extended attributes.
-    """
-    # 1. Ensure 'summary' exists for old callers (e.g. analyze_upload)
-    summary_text = parsed.get("summary") or parsed.get("executive_summary") or ""
-    parsed["summary"] = summary_text
-
-    # 2. Format recommendations into list of strings if they returned as structured objects
-    raw_recs = parsed.get("recommendations", [])
-    normalized_recs = []
-
-    if isinstance(raw_recs, list):
-        for rec in raw_recs:
-            if isinstance(rec, dict):
-                # Convert object rec to formatted string representation for backward compat
-                tactical = rec.get("tactical_action") or rec.get("finding", "")
-                impact = f" (Expected Impact: {rec['expected_impact']})" if rec.get("expected_impact") else ""
-                priority = f"[{rec['priority']}] " if rec.get("priority") else ""
-                normalized_recs.append(f"{priority}{tactical}{impact}".strip())
-            elif isinstance(rec, str):
-                normalized_recs.append(rec)
-
-    parsed["recommendations"] = normalized_recs
-    return parsed
 
 
 async def generate_report_analysis(
@@ -170,6 +121,11 @@ async def generate_report_analysis(
     language: Language,
     client_name: str,
 ) -> dict[str, Any]:
+    """
+    Returns: {"summary": str, "recommendations": list[str]}
+    Falls back to a deterministic templated summary if no LLM key is configured,
+    so the MVP is always demoable without external dependencies.
+    """
     settings = get_settings()
     user_prompt = _build_user_prompt(
         platform, period_label, metrics, anomalies, tone, language, client_name
@@ -178,21 +134,18 @@ async def generate_report_analysis(
     raw: str | None = None
     try:
         if settings.LLM_PROVIDER == "groq" and settings.GROQ_API_KEY:
-            model_name = settings.GROQ_MODEL or "llama-3.3-70b-versatile"
-            raw = _call_groq(SYSTEM_PROMPT, user_prompt, model_name, settings.GROQ_API_KEY)
+            raw = _call_groq(SYSTEM_PROMPT, user_prompt, settings.GROQ_MODEL, settings.GROQ_API_KEY)
         elif settings.OPENAI_API_KEY:
-            model_name = settings.OPENAI_MODEL or "gpt-4o"
-            raw = _call_openai(SYSTEM_PROMPT, user_prompt, model_name, settings.OPENAI_API_KEY)
-    except Exception as exc:  # noqa: BLE001
+            raw = _call_openai(SYSTEM_PROMPT, user_prompt, settings.OPENAI_MODEL, settings.OPENAI_API_KEY)
+    except Exception as exc:  # noqa: BLE001 — degrade gracefully, never break the wizard
         raw = None
         print(f"[llm_service] LLM call failed, falling back to template: {exc}")
 
     if raw:
         try:
             parsed = json.loads(raw)
-            # Check for either old or new structure
-            if "summary" in parsed or "executive_summary" in parsed or "report_title" in parsed:
-                return _normalize_response(parsed)
+            if "summary" in parsed and "recommendations" in parsed:
+                return parsed
         except json.JSONDecodeError:
             pass
 
@@ -202,7 +155,7 @@ async def generate_report_analysis(
 def _fallback_analysis(
     metrics: Metrics, anomalies: list[Anomaly], client_name: str, language: Language
 ) -> dict[str, Any]:
-    """Deterministic, no-API fallback compatible with old and new schema fields."""
+    """Deterministic, no-API fallback so the product never dead-ends."""
     if language == "ar":
         summary = (
             f"خلال الفترة المشمولة بالتقرير، حقق حساب {client_name} {metrics.impressions:,} ظهور "
@@ -228,9 +181,4 @@ def _fallback_analysis(
         if critical:
             recs = [f"CRITICAL: {m}" for m in critical] + recs
 
-    return {
-        "summary": summary,
-        "executive_summary": summary,
-        "recommendations": recs,
-        "report_title": f"Performance Report - {client_name}",
-    }
+    return {"summary": summary, "recommendations": recs}
