@@ -138,18 +138,28 @@ Write the JSON object now.
 """.strip()
 
 
-def _call_groq(system: str, user: str, model: str, api_key: str) -> str:
+# def _call_groq(system: str, user: str, model: str, api_key: str) -> str:
+#     from groq import Groq
+#
+#     client = Groq(api_key=api_key)
+#     resp = client.chat.completions.create(
+#         model=model,
+#         messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
+#         temperature=0.4,
+#         response_format={"type": "json_object"},
+#     )
+#     return resp.choices[0].message.content
+
+def _call_groq_prompt_guard(user_text: str, api_key: str) -> str:
     from groq import Groq
 
     client = Groq(api_key=api_key)
     resp = client.chat.completions.create(
-        model=model,
-        messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
-        temperature=0.4,
-        response_format={"type": "json_object"},
+        model="meta-llama/llama-prompt-guard-2-86m",
+        messages=[{"role": "user", "content": user_text}],
+        temperature=1,
     )
     return resp.choices[0].message.content
-
 
 def _call_openai(system: str, user: str, model: str, api_key: str) -> str:
     from openai import OpenAI
