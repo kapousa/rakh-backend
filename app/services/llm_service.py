@@ -150,7 +150,7 @@ Write the JSON object now.
 #     )
 #     return resp.choices[0].message.content
 
-def _call_groq_prompt_guard(user_text: str, api_key: str) -> str:
+def _call_groq(user_text: str, api_key: str) -> str:
     from groq import Groq
 
     client = Groq(api_key=api_key)
