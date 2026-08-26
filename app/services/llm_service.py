@@ -138,26 +138,14 @@ Write the JSON object now.
 """.strip()
 
 
-# def _call_groq(system: str, user: str, model: str, api_key: str) -> str:
-#     from groq import Groq
-#
-#     client = Groq(api_key=api_key)
-#     resp = client.chat.completions.create(
-#         model=model,
-#         messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
-#         temperature=0.4,
-#         response_format={"type": "json_object"},
-#     )
-#     return resp.choices[0].message.content
-
 def _call_groq(system: str, user: str, model: str, api_key: str) -> str:
     from groq import Groq
 
     client = Groq(api_key=api_key)
     resp = client.chat.completions.create(
         model=model,
-        messages=[{"role": "user", "content": user}],
-        temperature=1,
+        messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
+        temperature=0.4,
         response_format={"type": "json_object"},
     )
     return resp.choices[0].message.content
