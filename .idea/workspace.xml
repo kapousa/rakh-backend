@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bfd4ed4-2db2-45e9-a981-6371fd5cf39d" name="Changes" comment="AGAIN UPDATE the prompt">
-      <change beforePath="$PROJECT_DIR$/app/services/llm_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/llm_service.py" afterDir="false" />
-    </list>
+    <list default="true" id="6bfd4ed4-2db2-45e9-a981-6371fd5cf39d" name="Changes" comment="AGAIN 2 UPDATE the prompt" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -223,7 +221,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787740440751</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="AGAIN 2 UPDATE the prompt">
+      <option name="closed" value="true" />
+      <created>1787740743611</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1787740743611</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -240,6 +246,7 @@
     <MESSAGE value="Update the prompt" />
     <MESSAGE value="Revert the prompt" />
     <MESSAGE value="AGAIN UPDATE the prompt" />
-    <option name="LAST_COMMIT_MESSAGE" value="AGAIN UPDATE the prompt" />
+    <MESSAGE value="AGAIN 2 UPDATE the prompt" />
+    <option name="LAST_COMMIT_MESSAGE" value="AGAIN 2 UPDATE the prompt" />
   </component>
 </project>
