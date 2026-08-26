@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6bfd4ed4-2db2-45e9-a981-6371fd5cf39d" name="Changes" comment="update model" />
+    <list default="true" id="6bfd4ed4-2db2-45e9-a981-6371fd5cf39d" name="Changes" comment="update model to llama-3.3-70b-versatile" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -285,7 +285,15 @@
       <option name="project" value="LOCAL" />
       <updated>1787743921080</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="update model to llama-3.3-70b-versatile">
+      <option name="closed" value="true" />
+      <created>1787744434155</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1787744434155</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -308,6 +316,7 @@
     <MESSAGE value="update _call_groq_prompt_guard 11" />
     <MESSAGE value="revert _call_groq" />
     <MESSAGE value="update model" />
-    <option name="LAST_COMMIT_MESSAGE" value="update model" />
+    <MESSAGE value="update model to llama-3.3-70b-versatile" />
+    <option name="LAST_COMMIT_MESSAGE" value="update model to llama-3.3-70b-versatile" />
   </component>
 </project>
