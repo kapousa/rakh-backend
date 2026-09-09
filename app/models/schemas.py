@@ -304,6 +304,7 @@ class PlanFeatures(BaseModel):
     public_share_links: bool = True
     platform_rebrand: bool = False
     custom_domain: bool = False
+    ai_chat_assistant: bool = False  # per-message LLM cost, gated above Free/Starter by default
 
 
 class PlanCreate(BaseModel):
@@ -361,3 +362,40 @@ class WhiteLabelSettings(BaseModel):
     platform_logo_url: str | None = None
     platform_favicon_url: str | None = None
     custom_domain: str | None = None
+
+
+# ---------------------------------------------------------------------------
+# Report chat assistant (v1 — single-report scope, see report_chat_service.py)
+# ---------------------------------------------------------------------------
+class ChatMessage(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str
+
+
+class ReportChatRequest(BaseModel):
+    """Used for chatting about an already-saved report — the backend
+    fetches the report data itself from report_id, nothing sensitive is
+    passed in the request body beyond the conversation."""
+    message: str
+    conversation_history: list[ChatMessage] = []
+
+
+class ReportChatPreviewRequest(BaseModel):
+    """Used for chatting about a report still in the wizard (Step 4,
+    not saved yet) — the frontend already has this data in memory, so it
+    passes it directly rather than requiring a save-first round-trip."""
+    client_name: str
+    platform: str
+    period_label: str | None = None
+    metrics: dict[str, Any]
+    daily_series: list[dict[str, Any]] = []
+    anomalies: list[dict[str, Any]] = []
+    comparison: dict[str, Any] = {}
+    ai_summary: str | None = None
+    ai_recommendations: list[Any] = []
+    message: str
+    conversation_history: list[ChatMessage] = []
+
+
+class ReportChatResponse(BaseModel):
+    reply: str
