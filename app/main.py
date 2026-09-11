@@ -47,4 +47,4 @@ app.include_router(report_chat.router)
 
 @app.get("/api/health", tags=["health"])
 async def health_check():
-    return {"status": "ok", "service": "roasify-api"}
+    return {"status": "ok friend", "service": "roasify-api"}
